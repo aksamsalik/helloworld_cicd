@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: 8.0
+    commands:
+      - echo "Installing dependencies..."
+      - dotnet restore
+  build:
+    commands:
+      - echo "Building the project..."
+      - dotnet build --configuration Release
+  post_build:
+    commands:
+      - echo "Creating deployment package..."
+      - dotnet publish -c Release -o output
+      - zip -r deploy.zip output appspec.yml scripts/
+
+artifacts:
+  files:
+    - deploy.zipc
