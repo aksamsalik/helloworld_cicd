@@ -1,5 +1,4 @@
 version: 0.2
-
 phases:
   install:
     runtime-versions:
@@ -15,10 +14,9 @@ phases:
     commands:
       - echo "Creating deployment package..."
       - dotnet publish -c Release -o output
-      - zip -r deploy.zip output appspec.yml scripts/
-      - echo "Uploading deploy.zip to S3..."
-      - aws s3 cp deploy.zip s3://helloworld-cicd-bucket/
-
 artifacts:
   files:
-    - deploy.zip
+    - appspec.yml
+    - scripts/**/*
+    - output/**/*
+  discard-paths: no
