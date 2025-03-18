@@ -1,22 +1,27 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
-      dotnet: 8.0
+      dotnet: 6.0
+  pre_build:
     commands:
-      - echo "Installing dependencies..."
+      - echo Restore started on `date`
       - dotnet restore
   build:
     commands:
-      - echo "Building the project..."
-      - dotnet build --configuration Release
+      - echo Build started on `date`
+      - dotnet build -c Release
   post_build:
     commands:
-      - echo "Creating deployment package..."
-      - dotnet publish -c Release -o output
+      - echo Publish started on `date`
+      - dotnet publish -c Release -o ./publish
+      - cd publish
+      - dir
+
 artifacts:
   files:
+    - publish/**/*
     - appspec.yml
     - scripts/**/*
-    - output/**/*
-  discard-paths: no
+  base-directory: '.'
